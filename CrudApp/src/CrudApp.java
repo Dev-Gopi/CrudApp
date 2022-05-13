@@ -14,6 +14,7 @@ public class CrudApp {
     private JTextField serInp;
     private JButton searchButton;
     private JButton updateButton;
+    private JButton clearButton;
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("CrudApp");
@@ -163,6 +164,15 @@ public class CrudApp {
                 } catch (SQLException | NumberFormatException e) {
                     throw new RuntimeException(e);
                 }
+            }
+        });
+        clearButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                display.setText("");
+                inpName.setText("");
+                inpRoll.setText("");
+                inpNumber.setText("");
             }
         });
     }

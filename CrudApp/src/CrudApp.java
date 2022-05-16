@@ -34,7 +34,7 @@ public class CrudApp {
                     name = inpName.getText();
                     rollNo = inpRoll.getText();
                     phoneNo = inpNumber.getText();
-                    if (name.hashCode() !=0 || rollNo.hashCode() !=0 || phoneNo.hashCode() !=0) {
+                    if (name.hashCode() !=0 && rollNo.hashCode() !=0 && phoneNo.hashCode() !=0) {
                         pst = con.prepareStatement("select * from student_info where student_roll_number = ?");
                         pst.setString(1, rollNo);
                         ResultSet rs = pst.executeQuery();
@@ -47,13 +47,17 @@ public class CrudApp {
                             pst.setString(3, phoneNo);
                             pst.executeUpdate();
                             JOptionPane.showMessageDialog(null, "Record Added...");
+                            display.setText("");
+                            display.append("Name: - " + name);
+                            display.append("\nRoll Number: - " + rollNo);
+                            display.append("\nMobile Number: - " + phoneNo);
                             inpName.setText("");
                             inpRoll.setText("");
                             inpNumber.setText("");
 
                         }
                     } else {
-                    JOptionPane.showMessageDialog(null, "Enter All Input Data...");
+                        JOptionPane.showMessageDialog(null, "Enter All Input Data...");
                     }
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
@@ -118,7 +122,11 @@ public class CrudApp {
                             int is = pst.executeUpdate();
                             if (is != 0) {
                                 JOptionPane.showMessageDialog(null, "Update Success...");
-                                display.setText("Update Success fully");
+                                display.setText("");
+                                display.append("Update Success fully\n\n");
+                                display.append("Name: - " + name);
+                                display.append("\nRoll Number: - " + rollNo);
+                                display.append("\nMobile Number: - " + phoneNo);
                                 inpName.setText("");
                                 inpRoll.setText("");
                                 inpNumber.setText("");
@@ -168,11 +176,12 @@ public class CrudApp {
         });
         clearButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent actionEvent) {
                 display.setText("");
                 inpName.setText("");
                 inpRoll.setText("");
                 inpNumber.setText("");
+                serInp.setText("");
             }
         });
     }
@@ -183,8 +192,10 @@ public class CrudApp {
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost/student_info", "root","");
             System.out.println("Success");
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
+        } catch (SQLException ex){
+            throw new RuntimeException(ex);
         }
     }
 }
